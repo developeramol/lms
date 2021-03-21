@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    {% block title %}
+    Lead Status
+    {% endblock title %}
+</head>
+<body>
+{% block content %}
+<br>
+{% if messages %}
+{% for msg in messages %}
+<center><h5 class="alert alert-success">{{ msg }}</h5></center>
+{% endfor %}
+{% endif %}
+<div class="container mt-2">
+    <div style="background:white;border-radius:5px;">
+        <div class="row">
+            <div class="col-md-5">
+                <form method="GET" action="" class="form-inline">
+                    <input type="text" class="form-control">
+                    <br>
+                    {{ form }}
+                </form>
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary btn-sm">Search</button>
+            </div>
+        </div>
+        <p>
+        <h5>&nbsp;&nbsp; Total Lead Status Count : <span style="padding: 5px;border-radius:7px;"
+                                                         class="badge bg-info">{{ count }} </span>
+        </h5>
+        <p style="text-align:right">
+            {% if request.user.is_superuser %}
+            <a href="{% url 'lead_status_create_form' %}">
+                <span class="badge rounded-pill bg-primary">
+                    <i style="padding:2px;" class="fa fa-plus"></i> Add New
+                </span>
+            </a>
+        </p>
+        {% endif %}
+        </p>
+        {% if lead_data %}
+        <table class="table table-striped">
+            <thead class="table-active">
+            <th>#</th>
+            <th>NAME</th>
+            <th>TOTAL LEAD</th>
+            <th>LABEL</th>
+            <th>USER</th>
+            <th>STATUS</th>
+            <th>CREATED</th>
+            {% if request.user.is_superuser %}
+            <th>ACTION</th>
+            {% endif %}
+            </thead>
+            <tbody>
+            {% for data in lead_data %}
+            <tr>
+                <td><small class="text-muted">{{ data.status_id }}</small></td>
+                <td><small class="text-muted">{{ data.name }}</small></td>
+                <td><span class="badge bg-info"
+                          style="border-radius:7px; padding: 5px;">{{ data.total_lead }}</span>
+                </td>
+
+                <td>
+                    <a style="background:{{ data.background_color }}; color:{{ data.text_color }};
+                                border-radius:8px; padding: 3px;">
+                        <small style="padding-left:5px;padding-right:5px;">{{ data.name }}</small>
+                    </a>
+                </td>
+                <td><small class="text-muted">{{ data.user }}</small></td>
+                <td>
+                    <span class="badge bg-info" style="padding: 5px;border-radius:7px;">
+                        {{ data.get_status_display }}
+                    </span>
+                </td>
+                <td>
+                    <small class="text-muted">{{ data.created | date:"d-m-Y H:i A"}}</small>
+                </td>
+                {% if request.user.is_superuser %}
+                <td>
+                    <a style="border-radius: 50%;font-size:9px;"
+                       href="{% url 'change_status' %}"
+                       class="btn btn-outline-info btn-sm"><i class="fa fa-sync"></i>
+                    </a>
+                    <a style="border-radius: 50%;font-size:9px;"
+                       href="{% url 'lead_status_update_form' data.status_id %}"
+                       class="btn btn-outline-warning btn-sm"><i class="fa fa-pen"></i>
+                    </a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h3 class="alert alert-warning">No Record Found...!!</h3>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+</body>
+</html>

@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Leads
+{% endblock title %}
+{% block content %}
+<br>
+<div class="container mt-3" style="background:white;border-radius:5px;">
+
+    <!--    <form method="get">-->
+    <!--        {{ myFilter.form }}-->
+    <!--        <button class="btn btn-primary btn-sm" type="submit">Search</button>-->
+    <!--        <input type="reset" value="Reset" class="btn btn-warning btn-sm">-->
+    <!--    </form>-->
+    <p>
+        <big>&nbsp;&nbsp;Statuses : <span
+                class="badge rounded-pill bg-info"></span></big>
+        &nbsp;Pending - <span class="badge rounded-pill bg-info">0</span>
+        <!--            {% for name in lead_status_name %}-->
+        <!--            {{ name }} : <span class="badge rounded-pill bg-info">{{ status_count }}</span>-->
+        <!--            &nbsp;-->
+        <!--            {% endfor %}-->
+        New - <span class="badge rounded-pill bg-info">{{ new }}</span>
+        Won - <span class="badge rounded-pill bg-info">{{ won }}</span>
+        In Progress - <span class="badge rounded-pill bg-info">{{ inprogress }}</span>
+        Lost - <span class="badge rounded-pill bg-info">{{ lost }}</span>
+        No Response - <span class="badge rounded-pill bg-info">{{ noresponse }}</span>
+        <br><br>
+        <big>&nbsp;&nbsp;Sources : <span class="badge rounded-pill bg-info"></span></big>
+        <!--        &nbsp;{% for name in lead_source_name %}-->
+        <!--        {{ name }} : <span class="badge rounded-pill bg-info">{{ source_count }}</span>-->
+        <!--        &nbsp;-->
+        <!--        {% endfor %}-->
+        Google - <span class="badge rounded-pill bg-info">{{ google }}</span>
+        Facebook - <span class="badge rounded-pill bg-info">{{ facebook }}</span>
+        Instagram - <span class="badge rounded-pill bg-info">{{ instagram }}</span>
+        Whatsapp - <span class="badge rounded-pill bg-info">{{ whatsapp }}</span>
+        Twitter - <span class="badge rounded-pill bg-info">{{ twitter }}</span>
+    </p>
+    <h5 style="text-align:right">
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'lead_create_form' %}">
+                <span class="badge bg-primary mr-2 mb-2">
+                    <i style="padding:3px;" class="fa fa-plus-square"> </i>
+                </span>
+        </a>
+        <a href="{% url 'export_lead_excel_sheet_csv' %}">
+                <span class="badge bg-primary mr-4">
+                    <i style="padding:3px;" class="fa fa-file-excel"> </i>
+                </span>
+        </a>
+        {% endif %}
+    </h5>
+    {% if lead_data %}
+    <table class="table table-striped">
+        <thead class="table-active">
+        <th>#</th>
+        <th><small><b>CUSTOMER NAME</b></small></th>
+        <th><small><b>QUERY</b></small></th>
+        <th><small><b>MOBILE</b></small></th>
+        <th><small><b>EMAIL</b></small></th>
+        <th><small><b>SOURCE</b></small></th>
+        <th><small><b>STATUS</b></small></th>
+        <th><small><b>URL</b></small></th>
+        <th><small><b>FOLLOW UP</b></small></th>
+        <th><small><b>USER</b></small></th>
+        <th><small><b>CREATED</b></small></th>
+        <th><small><b>UPDATED</b></small></th>
+        {% if request.user.is_authenticated %}
+        <th><small><b>ACTION</b></small></th>
+        {% endif %}
+        </thead>
+        <tbody>
+        {% for data in lead_data %}
+        <tr>
+            <td><small class="text-muted">{{ data.lead_id }}</small></td>
+            <td><small class="text-muted">{{ data.name }}</small></td>
+            <td><small class="text-muted">{{ data.query }}</small></td>
+            <td><small class="text-muted">{{ data.mobile }}</small></td>
+            <td><small class="text-muted">{{ data.email }}</small></td>
+            <td><small class="text-muted">{{ data.lead_sour }}</small></td>
+            <td>
+                <small class="text-muted">{{ data.lead_stat }}</small>
+            </td>
+            <td>
+                <small>
+                    <a target="_blank"
+                       href="{% url 'lead_history_eye_data' data.lead_id %}">Link</a>
+                </small>
+            </td>
+            <td><small class="text-muted">{{ data.follow_up_date }}</small></td>
+            <td><small class="text-muted">{{ data.lead_assign }}</small></td>
+            <td><small class="text-muted">{{ data.created | date:"d-m-Y H:i A"}}</small></td>
+            <td><small class="text-muted">{{ data.updated | date:"d-m-Y H:i A"}}</small></td>
+            <td>
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'lead_history_eye_data' data.lead_id %}"
+                   style="padding-right:7px;color:#3c9efe;"><i class="fas fa-eye"></i></a>
+                <a href="{% url 'lead_history_form' data.lead_id %}"
+                   style="padding-right:5px;color:#0dcaf0;">
+                    <button type="button" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        <i style="padding:1px;" class="fa fa-sync"></i>
+                    </button>
+                </a>
+                <!--                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"-->
+                <!--                     aria-hidden="true">-->
+                <!--                    <div class="modal-dialog">-->
+                <!--                        <div class="modal-content">-->
+                <!--                            <div class="modal-header">-->
+                <!--                                <h5 class="modal-title" id="exampleModalLabel">Change Lead Status</h5>-->
+                <!--                                <button type="button" class="btn-close" data-bs-dismiss="modal"-->
+                <!--                                        aria-label="Close"></button>-->
+                <!--                            </div>-->
+                <!--                            <div class="modal-body">-->
+                <!--                                <form method="POST">-->
+                <!--                                    {% csrf_token %}-->
+                <!--                                    {{ form | crispy }}-->
+                <!--                                    <center><input type="submit" class="btn btn-primary btn-sm" value="Update"></center>-->
+                <!--                                </form>-->
+                <!--                            </div>-->
+                <!--                            <div class="modal-footer">-->
+                <!--                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <a href="{% url 'lead_update_form' data.lead_id %}" style="padding-right:7px;color:#ffc107;">
+                    <i class="fa fa-pen"></i>
+                </a>
+                <form method="post" class="btn-group-vertical" action="{% url 'lead_delete' data.lead_id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm mt-1">
+                        <i class="fa fa-trash-alt" style="padding:3px;"></i>
+                    </button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h3 class="alert alert-warning">No Record Found...!!</h3>
+    {% endif %}
+    <center>
+        <!--        <a class="btn btn-outline-primary btn-sm" href="?page=1">First</a>-->
+        <!--        {% if lead_data.has_previous %}-->
+        <!--        <a class="btn btn-outline-primary btn-sm"-->
+        <!--           href="{% url 'lead_view' %}?page={{lead_data.previous_page_number}}">Previous</a>-->
+        <!--        {% endif %}-->
+        <!--        {% if lead_data.has_next %}-->
+        <!--        <a class="btn btn-outline-primary btn-sm"-->
+        <!--           href="{% url 'lead_view' %}?page={{lead_data.next_page_number}}">Next</a>-->
+        <!--        {% endif %}-->
+        <!--        <a class="btn btn-outline-primary btn-sm" href="?page={{ lead_data.paginator.num_pages }}">Last</a>-->
+    </center>
+
+
+    <!--    <ul class="pagination">-->
+    <!--        {% for i in p.page_range %}-->
+    <!--        <li class="page-item {% if i == page_num %} active {% endif %}">-->
+    <!--            <a href="?page={{i}}" class="page-link">{{ i }}</a>-->
+    <!--        </li>-->
+    <!--        {% endfor %}-->
+    <!--    </ul>-->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                {% if lead_data.has_previous %}
+                <a class="page-link" href="{% url 'lead_view' %}?page={{lead_data.previous_page_number}}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                {% endif %}
+            </li>
+            {% for i in p.page_range %}
+            <li class="page-item {% if i == page_num %} active {% endif %}"><a class="page-link" href="?page={{i}}">
+                {{ i }}</a></li>
+            {% endfor %}
+            <li class="page-item">
+                {% if lead_data.has_next %}
+                <a class="page-link" href="{% url 'lead_view' %}?page={{lead_data.next_page_number}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+</div>
+{% endblock content %}

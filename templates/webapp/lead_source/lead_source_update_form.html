@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block title %}
+Update Lead Source
+{% endblock title %}
+{% block content %}
+<div class="container mt-5 l-form">
+    <form method="post" class="form">
+        <center><h4>Update Lead Source</h4></center>
+        {% csrf_token %}
+        <div class="col-md-12 form_div">
+            {% render_field form.name class="form_input" placeholder=' ' %}
+            <label class="form_label">Source Name</label>
+        </div>
+        <br>
+        <center>
+            <input type="submit" class="btn btn-primary btn-sm" value="Save">
+        </center>
+        <br>
+    </form>
+</div>
+<br><br>
+{% endblock content %}

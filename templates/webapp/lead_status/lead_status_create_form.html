@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    Create Lead Status
+    {% endblock title %}
+</head>
+<body>
+{% block content %}
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <label for="name">Lead Status Name :</label>
+                <input id="name" name="name" type="text" class="form-control">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="bcolor">Background Color :</label>
+                <input class="form-control" type="color" value="#fff" id="bcolor"
+                       name="bcolor">
+            </div>
+            <div class="col-md-6">
+                <label for="tcolor">Text Color :</label>
+                <input type="color" id="tcolor" value="#fff" class="form-control" name="tcolor">
+            </div>
+        </div>
+        <br>
+        <center><input type="submit" value="Save" class="btn btn-outline-primary btn-sm"></center>
+    </form>
+</div>
+<br><br>
+{% endblock content %}
+</body>
+</html>

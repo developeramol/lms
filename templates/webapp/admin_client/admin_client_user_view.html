@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    Admin User View
+    {% endblock title %}
+</head>
+<body>
+{% block content %}
+<div class="container mt-5">
+    <h5>Total User Count : <span class="badge bg-primary">{{ count }}</span></h5>
+    <p style="text-align:right;">
+        {% if request.user.is_superuser %}
+        <a href="{% url 'admin_user_create_form' %}">
+        <span class="badge rounded-pill bg-primary">
+            <i style="padding:2px;" class="fa fa-plus"></i> Add Admin
+        </span>
+        </a>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'client_user_create_form' %}">
+        <span class="badge rounded-pill bg-primary">
+            <i style="padding:2px;" class="fa fa-plus"></i> Add Client
+        </span>
+        </a>
+        {% endif %}
+    </p>
+    <table class="table table-striped">
+        <thead class="table-active">
+        <th>#</th>
+        <th>NAME</th>
+        <th>LEADS</th>
+        <th>CHILD USER</th>
+        <th>EMAIL</th>
+        <th>MOBILE</th>
+        <th>PARENT</th>
+        <th>USER TYPE</th>
+        <th>STATUS</th>
+        <th>CREATE</th>
+        {% if request.user.is_authenticated %}
+        <th>ACTION</th>
+        {% endif %}
+        </thead>
+        <tbody>
+        {% for data in admin_data%}
+        <tr>
+            <td><small class="text-muted">{{ data.admin_id }}</small></td>
+
+            <td><small class="text-muted">{{ data.user.username }}</small></td>
+            <td>
+                    <span class="badge bg-info"
+                          style="border-radius:7px; padding: 5px;">0</span>
+            </td>
+            <td>
+                    <span class="badge bg-info"
+                          style="border-radius:7px; padding: 5px;">0</span>
+            </td>
+            <td><small class="text-muted">{{ data.user.email }}</small></td>
+            <td><small class="text-muted">{{ data.mobile }}</small></td>
+            <td><small class="text-muted">{{ data.parent }}</small></td>
+            <td>
+                <small class="text-muted">{{ data.user_type }}</small>
+            </td>
+            <td><span class="badge bg-info" id="user_status"
+                      style="padding: 5px;border-radius:7px;">{{ data.get_status_display }}</span>
+            </td>
+            <td><small class="text-muted">{{ data.created | date:"d-m-Y H:i A"}}</small></td>
+            <td>
+                {% if request.user.is_authenticated %}
+                <!--                <a href="#" style="color:#0dcaf0;padding-right:10px;"><i class="fas fa-sync"></i></a>-->
+                <a type="button" onclick="document.getElementById('user_status').innerHTML = 'inactive'">
+                    <i class="fas fa-sync"></i>
+                </a>
+                <a href="#" style="color:#ffc107;"><i style="padding-right:5px;" class="fa fa-pen"></i></a>
+                {% endif %}
+                <br>
+                {% if request.user.is_superuser %}
+                <a style="color:dodgerblue;padding-right:10px;font-size:12px;" href="{% url 'change_password' %}">
+                    <i class="fas fa-key"></i>
+                </a>
+                <form class="d-inline" method="post" style="border: none;padding:1px;height:3rem;"
+                      action="{% url 'delete_admin_data' data.admin_id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+        {% for cdata in client_data %}
+        <tr>
+            <td><small class="text-muted">{{ cdata.client_id }}</small></td>
+
+            <td><small class="text-muted">{{ cdata.user.username }}</small></td>
+            <td>
+                    <span class="badge bg-info"
+                          style="border-radius:7px; padding: 5px;">0</span>
+            </td>
+            <td>
+                    <span class="badge bg-info"
+                          style="border-radius:7px; padding: 5px;">0</span>
+            </td>
+            <td><small class="text-muted">{{ cdata.user.email }}</small></td>
+            <td><small class="text-muted">{{ cdata.mobile }}</small></td>
+            <td><small class="text-muted">{{ cdata.parent }}</small></td>
+            <td><small class="text-muted">{{ cdata.user_type }}</small></td>
+            <td><span class="badge bg-info"
+                      style="padding: 5px;border-radius:7px;">{{ cdata.get_status_display }}</span>
+            </td>
+            <td><small class="text-muted">{{ cdata.created | date:"d-m-Y H:i A"}}</small></td>
+            <td>
+                {% if request.user.is_authenticated %}
+                <a href="#" style="color:#0dcaf0;padding-right:10px;"><i class="fas fa-sync"></i></a>
+                <a href="#" style="color:#ffc107;"><i class="fa fa-pen"></i></a>
+                {% endif %}
+                <br>
+                {% if request.user.is_superuser %}
+                <a style="color:dodgerblue;padding-right:10px;font-size:12px;" href="#">
+                    <i class="fas fa-key"></i>
+                </a>
+                <form class="d-inline" method="post" style="border: none;padding:1px;height:3rem;"
+                      action="#">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}
+</body>
+</html>

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}
+Customer Update Form
+{% endblock title %}
+{% block content %}<br>
+{% if request.user.is_superuser %}
+<div class="container mt-3 l-form">
+    <form method="post" class="form">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <h3 class="form_title">Primary Contact Information</h3>
+            </div>
+            <div class="col-md-6 mb-3">
+                <h3 class="form_title">Company Information</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 form_div">
+                {% render_field form.firstname class="form_input" placeholder=' ' %}
+                <label class="form_label">FirstName</label>
+            </div>
+            <div class="col-md-3 form_div">
+                {% render_field form.lastname class="form_input" placeholder=' ' %}
+                <label class="form_label">LastName</label>
+            </div>
+            <div class="col-md-6 form_div">
+                {% render_field form.company class="form_input" placeholder=' ' %}
+                <label class="form_label">Company</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form_div">
+                {% render_field form.contact class="form_input" placeholder=' ' %}
+                <label class="form_label">Contact</label>
+            </div>
+            <div class="col-md-6 form_div">
+                {% render_field form.gst_number class="form_input" placeholder=' ' %}
+                <label class="form_label">GST Number</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form_div">
+                {% render_field form.email class="form_input" placeholder=' ' %}
+                <label class="form_label">Email Address</label>
+            </div>
+            <div class="col-md-6 form_div">
+                {% render_field form.phone class="form_input" placeholder=' ' %}
+                <label class="form_label">Phone Number</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form_div">
+                {% render_field form.website class="form_input" placeholder=' ' %}
+                <label class="form_label">Website</label>
+            </div>
+            <div class="col-md-6 form_div">
+                {% render_field form.address class="form_input" placeholder=' ' %}
+                <label class="form_label">Address</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form_div">
+                {% render_field form.position class="form_input" placeholder=' ' %}
+                <label class="form_label">Position</label>
+            </div>
+            <div class="col-md-3 form_div">
+                {% render_field form.city class="form_input" placeholder=' ' %}
+                <label class="form_label">City</label>
+            </div>
+            <div class="col-md-3 form_div">
+                {% render_field form.country class="form_input" placeholder=' ' %}
+                <label class="form_label">Country</label>
+            </div>
+        </div>
+        <input type="submit" class="form_button" value="Save">
+    </form>
+</div>
+<br><br>
+{% else %}
+<div class="text-center">
+    <h1 class="alert alert-warning">You are not Allowed here...!!</h1>
+    <a href="/">Home Page</a>
+</div>
+{% endif %}
+{% endblock content %}
+<!----
+
+<div class="container mt-3 l-form">
+    <form method="post" class="form">
+        {% csrf_token %}
+        <div class="row">
+
+        </div>
+        <div class="row">
+
+        </div>
+        <button type="submit" class="form_button">Save</button>
+    </form>
+</div>
+<br><br>
+
+
+--->

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    Lead Sources
+    {% endblock title %}
+</head>
+<body>
+{% block content %}
+<br>
+{% if messages %}
+{% for msg in messages %}
+<center><h5 class="alert alert-success">{{ msg }}</h5></center>
+{% endfor %}
+{% endif %}
+<div class="container mt-2">
+    <div style="background:white;border-radius:5px;">
+        <p>
+        <h5>&nbsp;&nbsp; Total Lead Sources Count : <span style="padding: 5px;border-radius:7px;"
+                                                          class="badge bg-info">{{ count }} </span></h5>
+        {% if request.user.is_superuser %}
+        <p style="text-align:right">
+            <a href="{% url 'lead_source_create_form' %}">
+        <span class="badge rounded-pill bg-primary">
+            <i style="padding:2px;" class="fa fa-plus"></i> Add New
+        </span>
+            </a>
+        </p>
+        {% endif %}
+        </p>
+        {% if lead_data %}
+        <table class="table table-striped">
+            <thead class="table-active">
+            <th>#</th>
+            <th>NAME</th>
+            <th>TOTAL LEAD</th>
+            <th>USER</th>
+            <th>STATUS</th>
+            <th>CREATED</th>
+            {% if request.user.is_superuser %}
+            <th>ACTION</th>
+            {% endif %}
+            </thead>
+            <tbody>
+            {% for data in lead_data %}
+            <tr>
+                <td><small class="text-muted">{{ data.source_id }}</small></td>
+                <td><small class="text-muted">{{ data.name }}</small></td>
+                <td>
+                    <span class="badge bg-info" style="border-radius:7px; padding: 5px;">{{ lead_count }}</span>
+                </td>
+                <td><small class=" text-muted">{{ data.user }}</small></td>
+                <td><span class="badge bg-info"
+                          style="padding: 5px;border-radius:7px;">{{ data.get_status_display }}</span></td>
+                <td><small class="text-muted">{{ data.created | date:"d-m-Y H:i A"}}</small></td>
+                {% if request.user.is_superuser %}
+                <td>
+                    <a style="border-radius: 50%;font-size:9px;"
+                       href="{% url 'change_status' %}"
+                       class="btn btn-outline-info btn-sm"><i class="fa fa-sync"></i>
+                    </a>
+                    <a style="border-radius: 50%;font-size:9px;"
+                       href="{% url 'lead_source_update_form' data.source_id %}"
+                       class="btn btn-outline-success btn-sm"><i class="fa fa-pen"></i>
+                    </a>
+                    <form id="delete" method="post" class="d-inline"
+                          action="{% url 'lead_source_delete' data.source_id %}">
+                        {% csrf_token %}
+                        <a href="#" onclick="var sure = confirm('Are you sure you want to Delete this Record ?');
+                                if (sure == true ){
+                                                     event.preventDefault();
+                                                     document.getElementById('delete').submit()
+                                                  };">
+                            <button type="submit" class="btn btn-outline-danger btn-sm"
+                                    style="border-radius: 50%;font-size:9px;">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <a href="#" id="cancel"></a>
+                        </a>
+                    </form>
+
+                </td>
+
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h3 class="alert alert-warning">No Record Found...!!</h3>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+</body>
+</html>
+
+
+<!--<script>-->
+<!--function ConfirmDelete()-->
+<!--{-->
+<!--    var x = confirm("Are you sure you want to delete?");-->
+<!--    if (x)-->
+<!--        return true;-->
+<!--    else-->
+<!--        return false;-->
+<!--}                        -->
+<!--</script>-->
+<!--<button type="submit" class="btn btn-outline-danger btn-sm" onclick="ConfirmDelete()"-->
+<!--        style="border-radius: 50%;font-size:9px;">-->
+<!--    <i class="fas fa-trash-alt"></i>-->
+<!--</button>-->

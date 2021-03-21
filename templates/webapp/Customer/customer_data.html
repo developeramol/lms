@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}
+Customer Data
+{% endblock title %}
+{% block content %}
+{% if request.user.is_superuser %}
+<br>
+<div class="container mt-3">
+    <a href="{% url 'customer_form' %}">
+        <span class="badge bg-primary mr-2 mb-2">
+            <i style="padding:3px;" class="fa fa-plus-square"></i>
+        </span>
+    </a>
+    {% if data %}
+    <table class="table table-striped">
+        <thead class="table-active">
+        <th>#</th>
+        <th><small><b>CUSTOMER NAME</b></small></th>
+        <th><small><b>COMPANY</b></small></th>
+        <th><small><b>POSITION</b></small></th>
+        <th><small><b>EMAIL</b></small></th>
+        <th><small><b>CITY</b></small></th>
+        <th><small><b>ACTION</b></small></th>
+        </thead>
+        <tbody>
+        {% for d in data %}
+        <tr>
+            <td><small class="text-muted">{{ d.id }}</small></td>
+            <td><small class="text-muted">{{ d.firstname }} {{d.lastname}}</small></td>
+            <td><small class="text-muted">{{ d.company }}</small></td>
+            <td><small class="text-muted">{{ d.position }}</small></td>
+            <td><small class="text-muted">{{ d.email }}</small></td>
+            <td><small class="text-muted">{{ d.city }}</small></td>
+            <td class="customer_btn">
+                <a href="{% url 'customer_eye_data' d.id %}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <a href="{% url 'customer_update_form' d.id %}" class="btn btn-outline-warning btn-sm">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <form method="post" class="btn-group-vertical" action="{% url 'delete_customer_data' d.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm mt-1">
+                        <i class="fa fa-trash-alt" style="padding:3px;"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h3 class="alert alert-warning">No Record Found...!!</h3>
+    {% endif %}
+</div>
+{% else %}
+<div class="text-center">
+    <h1 class="alert alert-warning">You are not Allowed here...!!</h1>
+    <a href="/">Home Page</a>
+</div>
+{% endif %}
+{% endblock content %}

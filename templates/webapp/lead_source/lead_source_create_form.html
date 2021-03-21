@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    Create Lead Source
+    {% endblock title %}
+</head>
+<body>
+{% block content %}
+<div class="container mt-2 l-form">
+        <form method="post" class="form">
+            <center><h4>Create Lead Source</h4></center>
+            {% csrf_token %}
+            <div class="col-md-12 form_div">
+            {% render_field form.name class="form_input" placeholder=' ' %}
+            <label class="form_label">Source Name</label>
+        </div>
+            <br>
+            <center>
+                <input type="submit" class="btn btn-outline-primary btn-sm" value="Save">
+            </center>
+            <br>
+        </form>
+</div>
+{% endblock content %}
+</body>
+</html>

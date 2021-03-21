@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    Notification
+    {% endblock title %}
+</head>
+<body>
+{% block content %}
+<div class="container" style="background:white;padding-bottom:50px;padding-top:20px;">
+
+
+    <h3>Notification</h3>
+    <table class="table">
+        <thead class="table-active">
+        <th>#</th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th>Action</th>
+        </thead>
+    </table>
+</div>
+{% endblock content %}
+</body>
+</html>

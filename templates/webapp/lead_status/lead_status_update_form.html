@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    Update Lead Status
+    {% endblock title %}
+</head>
+<body>
+{% block content %}
+<div class="container mt-5 l-form">
+    <form method="post" class="form">
+        <center><h4>Update Lead Status</h4></center>
+        <br>
+        {% csrf_token %}
+        <div class="col-md-12 form_div">
+            {% render_field form.name class="form_input" placeholder=' ' %}
+            <label class="form_label">Status Name</label>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-0">
+                <label>Background color :</label>
+                {% render_field form.background_color class="form-control" placeholder="Enter background color" %}
+            </div>
+            <div class="col-md-6 mb-0">
+                <label>Text color :</label>
+                {% render_field form.text_color class="form-control" placeholder="Enter text color" %}
+            </div>
+        </div>
+        <br>
+        <center>
+            <input type="submit" class="btn btn-primary btn-sm" value="Save">
+        </center>
+        <br>
+    </form>
+</div>
+<br><br>
+{% endblock content %}
+</body>
+</html>

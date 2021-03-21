@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    Create Client User
+    {% endblock title %}
+</head>
+<body>
+{% block content %}
+<div class="container mt-3">
+    <form method="post" action="" enctype="multipart/form-data">
+        <center><h3>Create Admin User</h3></center>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <label for="uname">Username :</label>
+                <input type="text" class="form-control" id="uname" name="uname" placeholder="Enter username">
+            </div>
+            <div class="col-md-6">
+                <label for="mobile">Mobile :</label>
+                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile number">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="image">Choose File :</label>
+                <input type="file" class="form-control" id="image" name="image" value="image/admin.png">
+            </div>
+            <div class="col-md-6">
+                <label for="email">Email :</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="parent">Parent :</label>
+                <select name="parent" id="parent" class="form-control">
+                    {% for c in c_user %}
+                    <option>{{ c.user }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <span style="position:absolute;transform:translate(-50%,-50%);top:49%;right:2%;cursor:pointer;">
+                        <i style="font-size:14px;color:#7a797e;"
+                           class="fa fa-eye" aria-hidden="true" id="eye" onclick="toggle()"></i>
+                </span>
+                <label for="pwd">Password :</label>
+                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password">
+                <script>
+                    var state = false;
+                    function toggle(){
+                            if(state){
+                                document.getElementById("pwd").setAttribute("type","password");
+                                document.getElementById("eye").style.color='#7a797e';
+                                state = false;
+                            }
+                            else{
+                                document.getElementById("pwd").setAttribute("type","text");
+                                document.getElementById("eye").style.color='#5887ef';
+                                state = true;
+                            }
+                    }
+                </script>
+            </div>
+        </div>
+        <br>
+        <center>
+            <button type="submit" class="btn btn-outline-primary">Save</button>
+        </center>
+    </form>
+</div>
+{% endblock content %}
+</body>
+</html>

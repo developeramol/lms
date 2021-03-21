@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    Edit Lead
+    {% endblock title %}
+</head>
+<body>
+{% block content %}<br><br>
+<div class="container mt-3 l-form">
+    <form method="post" class="form">
+        <center><h4 class="form_title">Create Update</h4></center>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4 mb-0 form_div">
+                {% render_field form.name class="form_input" placeholder=' ' %}
+                <label class="form_label">Customer Name</label>
+            </div>
+            <div class="col-md-4 mb-0 form_div">
+                {% render_field form.query class="form_input" placeholder=' ' %}
+                <label class="form_label">Query</label>
+            </div>
+            <div class="col-md-4 mb-0 form_div">
+                {% render_field form.mobile class="form_input" placeholder=' ' %}
+                <label class="form_label">Mobile</label>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4 mb-0 form_div">
+                {% render_field form.email class="form_input" placeholder=' ' %}
+                <label class="form_label">Email</label>
+            </div>
+            <div class="col-md-4 mb-0 form_div">
+                {% render_field form.lead_sour class="form_input" placeholder=' ' %}
+                <label class="form_label">Lead Source</label>
+            </div>
+            <div class="col-md-4 mb-0 form_div">
+                {% render_field form.lead_assign class="form_input" placeholder=' ' %}
+                <label class="form_label">Lead Assign</label>
+            </div>
+        </div>
+        <br>
+        <div class="form_div">
+            {% render_field form.description class="form_input" placeholder=' ' attr='value':textarea %}
+            <label class="form_label">Description</label>
+        </div>
+        <center>
+            <input type="submit" class="btn btn-primary btn-sm" value="Save">
+        </center>
+        <br>
+    </form>
+</div>
+<br><br>
+{% endblock content %}
+</body>
+</html>

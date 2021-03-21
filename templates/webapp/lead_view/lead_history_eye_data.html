@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    Lead History
+    {% endblock title %}
+</head>
+<body>
+{% block content %}
+{% if l_h %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 px-0">
+            <h3 class="text-left">Lead Name : {{ l_h.name }}</h3>
+            <table class="table">
+                <tr>
+                    <th>Customer Name</th>
+                    <td>{{ l_h.name }}</td>
+                </tr>
+                <tr>
+                    <th>Lead Title</th>
+                    <td>{{ l_h.query }}</td>
+                </tr>
+                <tr>
+                    <th>Mobile Number</th>
+                    <td>{{ l_h.mobile }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ l_h.email }}</td>
+                </tr>
+                <tr>
+                    <th>Source</th>
+                    <td>{{ l_h.lead_sour }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ l_h.lead_stat }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ l_h.description }}</td>
+                </tr>
+                <tr>
+                    <th>User</th>
+                    <td>{{ l_h.lead_assign }}</td>
+                </tr>
+                <tr>
+                    <th>Created On</th>
+                    <td>{{ l_h.created }}</td>
+                </tr>
+                <tr>
+                    <th>Last Updated</th>
+                    <td>{{ l_h.updated }}</td>
+                </tr>
+            </table>
+            <center>
+                <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-primary btn-sm">Go Back</a>
+            </center>
+        </div>
+        <div class="col-md-8 px-0">
+            <div class="container" style="padding-bottom:100px;background:white;">
+                <h3>Lead History | Change Status
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        <i style="padding:1px;" class="fa fa-sync"></i>
+                    </button>
+                </h3>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Change Lead Status</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    {{ form | crispy }}
+                                    <center>
+                                        <input type="submit" value="Save" class="btn btn-outline-primary btn-sm">
+                                    </center>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th>Remark</th>
+                        <th>Followup</th>
+                        <th>User</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for h in l_h.history.all %}
+                    <tr>
+                        <td>{{ h.updated }}</td>
+                        <td>{{ h.lead_stat }}</td>
+                        <td>{{ h.remark }}</td>
+                        <td>{{ h.follow_up_date }}</td>
+                        <td>{{ request.user }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!--            <center>-->
+            <!--                <a class="btn btn-primary btn-sm" href="?page=1">First</a>-->
+            <!--                {% if l_h.has_previous %}-->
+            <!--                <a class="btn btn-primary btn-sm"-->
+            <!--                   href="{% url 'lead_view' %}?page={{l_h.previous_page_number}}">Previous</a>-->
+            <!--                {% endif %}-->
+            <!--                {% if l_h.has_next %}-->
+            <!--                <a class="btn btn-primary btn-sm"-->
+            <!--                   href="{% url 'lead_view' %}?page={{l_h.next_page_number}}">Next</a>-->
+            <!--                {% endif %}-->
+            <!--                <a class="btn btn-primary btn-sm" href="?page={{ l_h.paginator.num_pages }}">Last</a>-->
+            <!--            </center>-->
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
+</body>
+</html>
+<!--
+<div class="row">
+    <div class="col-md-5 mb-0">
+        <label>Lead Status :</label>
+        <select id="lead_status_field" name="lead_status_field"
+                class="form-control">
+            {% for ls in lead_stat %}
+            <option>{{ ls.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-5 mb-0">
+        <label>FollowUp Date :</label>
+        <input id="follow_up" type="datetime-local" name="follow_up"
+               class="form-control">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 mb-0">
+        <label>Message :</label>
+        <textarea id="remark_text" name="remark_text"
+                  class="form-control"></textarea>
+        <br>
+        <center><input type="submit" value="Save" class="btn btn-primary btn-sm">
+        </center>
+    </div>
+</div>
+---->

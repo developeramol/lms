@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-3">
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-5 mb-0">
+                <label>Lead Status :</label>
+<!--                                <select id="lead_status_field" name="lead_status_field" class="form-control">-->
+<!--                                    {% for ls in lead_stat %}-->
+<!--                                    <option>{{ ls.name }}</option>-->
+<!--                                    {% endfor %}-->
+<!--                                </select>-->
+                {% render_field form.lead_stat class="form-control" %}
+            </div>
+            <div class="col-md-5 mb-0">
+                <label>FollowUp Date :</label>
+<!--                                <input id="follow_up" type="datetime-local" name="follow_up" class="form-control">-->
+                {% render_field form.follow_up_date class="form-control" placeholder='eg : YYYY - MM - DD' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 mb-0">
+                <label>Message :</label>
+                <!--                <textarea id="remark_text" name="remark_text" class="form-control"></textarea>-->
+                {% render_field form.remark class="form-control" %}
+                <br>
+                <center><input type="submit" value="Save" class="btn btn-primary btn-sm"></center>
+            </div>
+        </div>
+        <br>
+    </form>
+
+    <br>
+    <!--    <table class="table">-->
+    <!--        <thead class="thead-light">-->
+    <!--        <tr>-->
+    <!--            <ol start="1">-->
+    <!--                <th>Date & Time</th>-->
+    <!--                <th>Status</th>-->
+    <!--                <th>Remark</th>-->
+    <!--                <th>Followup Date & Time</th>-->
+    <!--                <th>Updated By</th>-->
+    <!--            </ol>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        {% for h in l_h.history.all %}-->
+    <!--        <tr>-->
+    <!--            <ol start="1">-->
+    <!--                <td>{{ h.updated }}</td>-->
+    <!--                <td>{{ h.lead_stat }}</td>-->
+    <!--                <td>{{ h.remark }}</td>-->
+    <!--                <td>{{ h.follow_up_date }}</td>-->
+    <!--                <td>{{ request.user.username }}</td>-->
+    <!--            </ol>-->
+    <!--        </tr>-->
+    <!--        {% endfor %}-->
+    <!--        </tbody>-->
+    <!--    </table>-->
+</div>
+
+
+<!--<select id="lead_status_field" name="lead_status_field" class="form-control">-->
+<!--    {% for ls in lead_stata %}-->
+<!--    <option>{{ ls.name }}</option>-->
+<!--    {% endfor %}-->
+<!--</select>-->
+{% endblock content %}
