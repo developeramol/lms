@@ -93,14 +93,25 @@ WSGI_APPLICATION = 'LeadManagementSystemProject.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'lead-management-system',
+#         'USER': 'postgres',
+#         'PASSWORD': 'amol@1996',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'lead-management-system',
-        'USER': 'postgres',
-        'PASSWORD': 'amol@1996',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': 'da4ksfhth0jnmn',
+        'USER': 'zrfoovmrcfitjf',
+        'PASSWORD': '9c0adc24bf81ea7b4572812c2e9b309ebac221bb4c7f2bf00ba85a456342ead7',
+        'HOST': 'ec2-18-214-208-89.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
